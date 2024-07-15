@@ -1,0 +1,9 @@
+// Обновление страницы каждые 5 секунд https://2ip.ru/
+setInterval(function(){
+    location.reload();
+}, 60000);
+
+// Получение текста из элемента #d_clip_button > span и проговорка
+var text = document.querySelector('#d_clip_button > span').innerText;
+var msg = new SpeechSynthesisUtterance(text);
+window.speechSynthesis.speak(msg);
