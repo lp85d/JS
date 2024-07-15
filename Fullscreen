@@ -1,0 +1,1 @@
+javascript:(function() {  var el = document.documentElement;  var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;  if (rfs) {    rfs.call(el);  }})();
