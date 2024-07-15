@@ -1,0 +1,40 @@
+(function() {
+    // Функция для дисконнекта
+    function disconnectVPN() {
+        const disconnectButton = document.querySelector('#app-container > div > header > div:nth-child(2) > div > div > div > button > span');
+        if (disconnectButton) {
+            disconnectButton.click();
+            console.log('VPN отключен');
+        } else {
+            console.log('Кнопка дисконнекта не найдена');
+        }
+    }
+
+    // Функция для коннекта
+    function connectVPN() {
+        const serverList = document.querySelector('#app-container > div > div > main > div > div > div > div > div > div > div > div > div > div.ant-tabs-content-holder ul');
+        if (serverList) {
+            const connectButton = serverList.querySelector('li:first-child h4');
+            if (connectButton) {
+                connectButton.click();
+                console.log('VPN подключен');
+            } else {
+                console.log('Кнопка коннекта не найдена');
+            }
+        } else {
+            console.log('Список серверов не найден');
+        }
+    }
+
+    // Функция для обновления VPN сессии https://user1.setupvpn.com/ui/dashboard
+    function refreshVPNSession() {
+        disconnectVPN();
+        setTimeout(connectVPN, 5000); // Ждем 5 секунд перед повторным подключением
+    }
+
+    // Устанавливаем интервал на 15 минут (900000 миллисекунд)
+    setInterval(refreshVPNSession, 899990);
+
+    // Первый запуск сразу после загрузки скрипта
+    refreshVPNSession();
+})();
