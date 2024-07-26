@@ -1,0 +1,30 @@
+// Функция для перехода на вкладку "Видео"
+function switchToVideosTab() {
+    // Проверяем, что мы находимся на странице канала
+    if (window.location.pathname.startsWith('/@') || window.location.pathname.startsWith('/channel/') || window.location.pathname.startsWith('/c/') || window.location.pathname.startsWith('/user/')) {
+        // Ищем все ссылки на вкладку "Видео"
+        const videosTabs = document.querySelectorAll('a[href*="/videos"]');
+        if (videosTabs.length > 1) {
+            // Кликаем на вторую вкладку "Видео"
+            videosTabs[1].click();
+        }
+    }
+}
+
+// Функция для наблюдения за изменением URL
+function observeUrlChanges() {
+    let lastUrl = window.location.href;
+    setInterval(() => {
+        const currentUrl = window.location.href;
+        if (currentUrl !== lastUrl) {
+            lastUrl = currentUrl;
+            switchToVideosTab();
+        }
+    }, 5000); // Проверка каждые 5 секунд
+}
+
+// Запускаем функцию наблюдения за изменением URL при загрузке страницы
+window.addEventListener('load', () => {
+    switchToVideosTab();
+    observeUrlChanges();
+});
