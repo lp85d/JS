@@ -1,12 +1,24 @@
+let currentChannel = '';
+
 // Функция для перехода на вкладку "Видео"
 function switchToVideosTab() {
-    // Проверяем, что мы находимся на странице канала
+    // Проверяем, что находимся на странице канала
     if (window.location.pathname.startsWith('/@') || window.location.pathname.startsWith('/channel/') || window.location.pathname.startsWith('/c/') || window.location.pathname.startsWith('/user/')) {
-        // Ищем все ссылки на вкладку "Видео"
-        const videosTabs = document.querySelectorAll('a[href*="/videos"]');
-        if (videosTabs.length > 1) {
-            // Кликаем на вторую вкладку "Видео"
-            videosTabs[1].click();
+        // Получаем ID канала из URL
+        const channelIdMatch = window.location.href.match(/\/channel\/([^\/]+)/) || window.location.href.match(/\/user\/([^\/]+)/) || window.location.href.match(/\/@([^\/]+)/);
+        const newChannel = channelIdMatch ? channelIdMatch[0] : '';
+
+        // Если канал изменился, обновляем текущий канал
+        if (newChannel !== currentChannel) {
+            currentChannel = newChannel;
+            const tabs = document.querySelectorAll('.yt-tab-shape-wiz__tab');
+            for (let tab of tabs) {
+                if (tab.innerText.includes('Видео')) {
+                    tab.click();
+                    console.log(`Переключено на вкладку 'Видео' для канала: ${currentChannel}`);
+                    return;
+                }
+            }
         }
     }
 }
@@ -20,11 +32,13 @@ function observeUrlChanges() {
             lastUrl = currentUrl;
             switchToVideosTab();
         }
-    }, 5000); // Проверка каждые 5 секунд
+    }, 1000); // Проверка каждую секунду
 }
 
 // Запускаем функцию наблюдения за изменением URL при загрузке страницы
 window.addEventListener('load', () => {
-    switchToVideosTab();
-    observeUrlChanges();
+    setTimeout(() => {
+        switchToVideosTab();
+        observeUrlChanges();
+    }, 5000); // Задержка 5 секунд
 });
