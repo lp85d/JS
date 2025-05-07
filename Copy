@@ -1,0 +1,1 @@
+javascript:(function(){var sel=window.getSelection();var text=sel.toString();if(!text){var iframes=document.getElementsByTagName('iframe');for(var i=0;i<iframes.length;i++){try{sel=iframes[i].contentWindow.getSelection();text=sel.toString();if(text)break;}catch(e){}}}if(text){navigator.clipboard.writeText(text);}})();
